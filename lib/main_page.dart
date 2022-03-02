@@ -1,7 +1,12 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:pagarme_card_hash/pagarme_card_hash.dart';
+import 'package:pagarme_card_hash_generator/string_extension.dart';
+import 'package:seo_renderer/seo_renderer.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);
@@ -38,32 +43,74 @@ class _MainPageState extends State<MainPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
-                'ATENÇÃO',
-                style: Theme.of(context).textTheme.headline6!.copyWith(
-                      color: Colors.red,
-                    ),
+              TextRenderer(
+                style: TextRendererStyle.header6,
+                child: Text(
+                  'ATENÇÃO',
+                  style: Theme.of(context).textTheme.headline6!.copyWith(
+                        color: Colors.red,
+                      ),
+                ),
               ),
               const SizedBox(height: 8),
-              Text(
-                'Não utilize dados de cartões reais, acesse o site 4devs.com.br\npara gerar dados de cartão fake para teste.',
-                textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.subtitle1!.copyWith(
-                      color: Colors.black,
-                    ),
+              TextRenderer(
+                style: TextRendererStyle.paragraph,
+                child: Text(
+                  'Não utilize dados de cartões reais, acesse o site 4devs.com.br\npara gerar dados de cartão fake para teste.',
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.subtitle1!.copyWith(
+                        color: Colors.black,
+                      ),
+                ),
               ),
               const SizedBox(height: 16),
-              Text(
-                'Este site é epenas um demonstrativo do package "pagarme_hash" para flutter\nque eu criei para utilização da empresa na qual eu trabalho\nporém está publicado no github para quem queira ver',
-                textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.subtitle1!.copyWith(
-                      color: Colors.grey,
+              ConstrainedBox(
+                constraints: const BoxConstraints(
+                  maxWidth: 480,
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 30),
+                  child: TextRenderer(
+                    style: TextRendererStyle.paragraph,
+                    child: Text.rich(
+                      TextSpan(
+                        text: 'Este site é epenas um demonstrativo do package ',
+                        style: Theme.of(context).textTheme.subtitle1!.copyWith(
+                              color: Colors.grey,
+                            ),
+                        children: [
+                          TextSpan(
+                            text: 'pagarme_card_hash',
+                            recognizer: TapGestureRecognizer()..onTap = () => launch('https://github.com/tihrasguinho/pagarme_card_hash'),
+                            style: Theme.of(context).textTheme.subtitle1!.copyWith(
+                                  color: Colors.blue,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                          ),
+                          TextSpan(
+                            text: ' para Flutter que eu criei para utilizar na empresa na qual eu trabalho, porém está publicado no github para quem quiser ver!',
+                            style: Theme.of(context).textTheme.subtitle1!.copyWith(
+                                  color: Colors.grey,
+                                ),
+                          ),
+                        ],
+                      ),
+                      textAlign: TextAlign.center,
                     ),
+                  ),
+                ),
               ),
-              const SizedBox(height: 24),
+              const SizedBox(height: 16),
               _customTextField(
                 label: 'Número do Cartão',
                 controller: cardNumber,
+                formatters: [
+                  MaskTextInputFormatter(
+                    mask: '#### #### #### ####',
+                    filter: {"#": RegExp(r'[0-9]')},
+                    type: MaskAutoCompletionType.lazy,
+                  ),
+                ],
               ),
               _customTextField(
                 label: 'Nome do Titular',
@@ -72,14 +119,31 @@ class _MainPageState extends State<MainPage> {
               _customTextField(
                 label: 'Data de Validade',
                 controller: cardExp,
+                formatters: [
+                  MaskTextInputFormatter(
+                    mask: '##/##',
+                    filter: {"#": RegExp(r'[0-9]')},
+                    type: MaskAutoCompletionType.lazy,
+                  ),
+                ],
               ),
               _customTextField(
                 label: 'CVV',
                 controller: cardCvv,
+                formatters: [
+                  MaskTextInputFormatter(
+                    mask: '###',
+                    filter: {"#": RegExp(r'[0-9]')},
+                    type: MaskAutoCompletionType.lazy,
+                  ),
+                ],
               ),
               FloatingActionButton.extended(
                 heroTag: '1',
-                label: Text('Gerar card hash'.toUpperCase()),
+                label: TextRenderer(
+                  style: TextRendererStyle.paragraph,
+                  child: Text('Gerar card hash'.toUpperCase()),
+                ),
                 onPressed: () => isValidated
                     ? showDialog(
                         context: context,
@@ -91,11 +155,14 @@ class _MainPageState extends State<MainPage> {
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 const SizedBox(height: 32),
-                                Text(
-                                  'Insira sua chave de api pagarme',
-                                  style: Theme.of(context).textTheme.headline6!.copyWith(
-                                        color: Colors.black,
-                                      ),
+                                TextRenderer(
+                                  style: TextRendererStyle.header6,
+                                  child: Text(
+                                    'Insira sua chave de api pagarme',
+                                    style: Theme.of(context).textTheme.headline6!.copyWith(
+                                          color: Colors.black,
+                                        ),
+                                  ),
                                 ),
                                 const SizedBox(height: 16),
                                 _customTextField(
@@ -104,13 +171,19 @@ class _MainPageState extends State<MainPage> {
                                 ),
                                 FloatingActionButton.extended(
                                   heroTag: '2',
-                                  label: Text('CONFIRMAR'.toUpperCase()),
+                                  label: TextRenderer(
+                                    style: TextRendererStyle.paragraph,
+                                    child: Text('CONFIRMAR'.toUpperCase()),
+                                  ),
                                   onPressed: () async {
                                     if (apiKey.text.isEmpty) {
                                       ScaffoldMessenger.of(context).hideCurrentSnackBar();
                                       ScaffoldMessenger.of(context).showSnackBar(
                                         const SnackBar(
-                                          content: Text('Por favor, insira sua chave de API da Pagarme!'),
+                                          content: TextRenderer(
+                                            style: TextRendererStyle.paragraph,
+                                            child: Text('Por favor, insira sua chave de API da Pagarme!'),
+                                          ),
                                           backgroundColor: Colors.red,
                                           behavior: SnackBarBehavior.floating,
                                           width: 480,
@@ -123,9 +196,9 @@ class _MainPageState extends State<MainPage> {
                                     final pagarmeCardHash = PagarmeCardHash(apiKey: apiKey.text);
 
                                     final cardHash = await pagarmeCardHash.cardHash(
-                                      cardNumber: cardNumber.text,
+                                      cardNumber: cardNumber.text.withOutSpecialChars,
                                       cardHolder: cardHolder.text,
-                                      cardExp: cardExp.text,
+                                      cardExp: cardExp.text.withOutSpecialChars,
                                       cardCvv: cardCvv.text,
                                     );
 
@@ -143,11 +216,14 @@ class _MainPageState extends State<MainPage> {
                                               mainAxisSize: MainAxisSize.min,
                                               children: [
                                                 const SizedBox(height: 32),
-                                                Text(
-                                                  'card_hash gerado com sucesso!',
-                                                  style: Theme.of(context).textTheme.headline6!.copyWith(
-                                                        color: Colors.black,
-                                                      ),
+                                                TextRenderer(
+                                                  style: TextRendererStyle.header6,
+                                                  child: Text(
+                                                    'card_hash gerado com sucesso!',
+                                                    style: Theme.of(context).textTheme.headline6!.copyWith(
+                                                          color: Colors.black,
+                                                        ),
+                                                  ),
                                                 ),
                                                 const SizedBox(height: 16),
                                                 Container(
@@ -178,34 +254,46 @@ class _MainPageState extends State<MainPage> {
                                                       ),
                                                       child: SingleChildScrollView(
                                                         scrollDirection: Axis.horizontal,
-                                                        child: Text(
-                                                          cardHash,
-                                                          maxLines: 1,
-                                                          style: Theme.of(context).textTheme.subtitle1!.copyWith(
-                                                                color: Colors.black,
-                                                              ),
+                                                        child: TextRenderer(
+                                                          style: TextRendererStyle.paragraph,
+                                                          child: Text(
+                                                            cardHash,
+                                                            maxLines: 1,
+                                                            style: Theme.of(context).textTheme.subtitle1!.copyWith(
+                                                                  color: Colors.black,
+                                                                ),
+                                                          ),
                                                         ),
                                                       ),
                                                     ),
                                                   ),
                                                 ),
                                                 const SizedBox(height: 16),
-                                                FloatingActionButton.extended(
-                                                  onPressed: () {
-                                                    Clipboard.setData(ClipboardData(text: cardHash));
+                                                Padding(
+                                                  padding: const EdgeInsets.symmetric(horizontal: 30),
+                                                  child: FloatingActionButton.extended(
+                                                    onPressed: () {
+                                                      Clipboard.setData(ClipboardData(text: cardHash));
 
-                                                    ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                                                    ScaffoldMessenger.of(context).showSnackBar(
-                                                      const SnackBar(
-                                                        content: Text('Copiado!'),
-                                                        backgroundColor: Colors.green,
-                                                        behavior: SnackBarBehavior.floating,
-                                                        width: 480,
-                                                      ),
-                                                    );
-                                                  },
-                                                  label: const Text('Copiar para área de transferência'),
-                                                  icon: const Icon(Icons.copy_rounded),
+                                                      ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                                                      ScaffoldMessenger.of(context).showSnackBar(
+                                                        const SnackBar(
+                                                          content: TextRenderer(
+                                                            style: TextRendererStyle.paragraph,
+                                                            child: Text('Copiado!'),
+                                                          ),
+                                                          backgroundColor: Colors.green,
+                                                          behavior: SnackBarBehavior.floating,
+                                                          width: 480,
+                                                        ),
+                                                      );
+                                                    },
+                                                    label: const TextRenderer(
+                                                      style: TextRendererStyle.paragraph,
+                                                      child: Text('Copiar para área de transferência'),
+                                                    ),
+                                                    icon: const Icon(Icons.copy_rounded),
+                                                  ),
                                                 ),
                                                 const SizedBox(height: 32),
                                               ],
@@ -226,7 +314,10 @@ class _MainPageState extends State<MainPage> {
                         ScaffoldMessenger.of(context).hideCurrentSnackBar(),
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
-                            content: Text('Por favor, preencha os dados do cartão'),
+                            content: TextRenderer(
+                              style: TextRendererStyle.paragraph,
+                              child: Text('Por favor, preencha os dados do cartão'),
+                            ),
                             backgroundColor: Colors.red,
                             behavior: SnackBarBehavior.floating,
                             width: 480,
@@ -244,6 +335,7 @@ class _MainPageState extends State<MainPage> {
   Widget _customTextField({
     required String label,
     TextEditingController? controller,
+    List<TextInputFormatter>? formatters,
   }) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 5),
@@ -255,7 +347,9 @@ class _MainPageState extends State<MainPage> {
         ),
         child: TextFormField(
           controller: controller,
+          inputFormatters: formatters,
           decoration: InputDecoration(
+            contentPadding: const EdgeInsets.symmetric(horizontal: 15),
             labelText: label,
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(36),
