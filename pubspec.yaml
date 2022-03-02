@@ -13,9 +13,9 @@ dependencies:
     sdk: flutter
 
   cupertino_icons: ^1.0.2
-  pagarme_card_hash:
+  card_hash_generator:
     git:
-      url: https://github.com/tihrasguinho/pagarme_card_hash.git
+      url: https://github.com/tihrasguinho/card_hash_generator.git
   mask_text_input_formatter: ^2.1.0
   url_launcher: ^6.0.20
   url_strategy: ^0.2.0

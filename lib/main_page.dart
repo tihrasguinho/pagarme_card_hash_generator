@@ -1,9 +1,8 @@
-import 'package:flutter/foundation.dart';
+import 'package:card_hash_generator/card_hash_generator.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
-import 'package:pagarme_card_hash/pagarme_card_hash.dart';
 import 'package:pagarme_card_hash_generator/string_extension.dart';
 import 'package:seo_renderer/seo_renderer.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -43,6 +42,7 @@ class _MainPageState extends State<MainPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              const Spacer(),
               TextRenderer(
                 style: TextRendererStyle.header6,
                 child: Text(
@@ -80,8 +80,8 @@ class _MainPageState extends State<MainPage> {
                             ),
                         children: [
                           TextSpan(
-                            text: 'pagarme_card_hash',
-                            recognizer: TapGestureRecognizer()..onTap = () => launch('https://github.com/tihrasguinho/pagarme_card_hash'),
+                            text: 'card_hash_generator',
+                            recognizer: TapGestureRecognizer()..onTap = () => launch('https://pub.dev/packages/card_hash_generator'),
                             style: Theme.of(context).textTheme.subtitle1!.copyWith(
                                   color: Colors.blue,
                                   fontWeight: FontWeight.bold,
@@ -148,164 +148,167 @@ class _MainPageState extends State<MainPage> {
                     ? showDialog(
                         context: context,
                         builder: (_) => Center(
-                          child: Material(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(8),
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                const SizedBox(height: 32),
-                                TextRenderer(
-                                  style: TextRendererStyle.header6,
-                                  child: Text(
-                                    'Insira sua chave de api pagarme',
-                                    style: Theme.of(context).textTheme.headline6!.copyWith(
-                                          color: Colors.black,
-                                        ),
-                                  ),
-                                ),
-                                const SizedBox(height: 16),
-                                _customTextField(
-                                  label: 'Chave de API',
-                                  controller: apiKey,
-                                ),
-                                FloatingActionButton.extended(
-                                  heroTag: '2',
-                                  label: TextRenderer(
-                                    style: TextRendererStyle.paragraph,
-                                    child: Text('CONFIRMAR'.toUpperCase()),
-                                  ),
-                                  onPressed: () async {
-                                    if (apiKey.text.isEmpty) {
-                                      ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                                      ScaffoldMessenger.of(context).showSnackBar(
-                                        const SnackBar(
-                                          content: TextRenderer(
-                                            style: TextRendererStyle.paragraph,
-                                            child: Text('Por favor, insira sua chave de API da Pagarme!'),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 30),
+                            child: Material(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(8),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  const SizedBox(height: 32),
+                                  TextRenderer(
+                                    style: TextRendererStyle.header6,
+                                    child: Text(
+                                      'Insira sua chave de api pagarme',
+                                      style: Theme.of(context).textTheme.headline6!.copyWith(
+                                            color: Colors.black,
                                           ),
-                                          backgroundColor: Colors.red,
-                                          behavior: SnackBarBehavior.floating,
-                                          width: 480,
-                                        ),
+                                    ),
+                                  ),
+                                  const SizedBox(height: 16),
+                                  _customTextField(
+                                    label: 'Chave de API',
+                                    controller: apiKey,
+                                  ),
+                                  FloatingActionButton.extended(
+                                    heroTag: '2',
+                                    label: TextRenderer(
+                                      style: TextRendererStyle.paragraph,
+                                      child: Text('CONFIRMAR'.toUpperCase()),
+                                    ),
+                                    onPressed: () async {
+                                      if (apiKey.text.isEmpty) {
+                                        ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                                        ScaffoldMessenger.of(context).showSnackBar(
+                                          const SnackBar(
+                                            content: TextRenderer(
+                                              style: TextRendererStyle.paragraph,
+                                              child: Text('Por favor, insira sua chave de API da Pagar.me!'),
+                                            ),
+                                            backgroundColor: Colors.red,
+                                            behavior: SnackBarBehavior.floating,
+                                            width: 480,
+                                          ),
+                                        );
+
+                                        return;
+                                      }
+
+                                      final pagarmeCardHash = CardHashGenerator(apiKey: apiKey.text);
+
+                                      final cardHash = await pagarmeCardHash.generate(
+                                        cardNumber: cardNumber.text.withOutSpecialChars,
+                                        cardHolderName: cardHolder.text,
+                                        cardExpirationDate: cardExp.text.withOutSpecialChars,
+                                        cardCvv: cardCvv.text,
                                       );
 
-                                      return;
-                                    }
+                                      Navigator.of(context).pop();
 
-                                    final pagarmeCardHash = PagarmeCardHash(apiKey: apiKey.text);
-
-                                    final cardHash = await pagarmeCardHash.cardHash(
-                                      cardNumber: cardNumber.text.withOutSpecialChars,
-                                      cardHolder: cardHolder.text,
-                                      cardExp: cardExp.text.withOutSpecialChars,
-                                      cardCvv: cardCvv.text,
-                                    );
-
-                                    Navigator.of(context).pop();
-
-                                    await showDialog(
-                                      context: context,
-                                      builder: (_) => Center(
-                                        child: Padding(
-                                          padding: const EdgeInsets.symmetric(horizontal: 100),
-                                          child: Material(
-                                            color: Colors.white,
-                                            borderRadius: BorderRadius.circular(8),
-                                            child: Column(
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: [
-                                                const SizedBox(height: 32),
-                                                TextRenderer(
-                                                  style: TextRendererStyle.header6,
-                                                  child: Text(
-                                                    'card_hash gerado com sucesso!',
-                                                    style: Theme.of(context).textTheme.headline6!.copyWith(
-                                                          color: Colors.black,
-                                                        ),
-                                                  ),
-                                                ),
-                                                const SizedBox(height: 16),
-                                                Container(
-                                                  margin: const EdgeInsets.symmetric(horizontal: 30),
-                                                  decoration: BoxDecoration(
-                                                    color: Colors.white,
-                                                    borderRadius: BorderRadius.circular(8),
-                                                    boxShadow: const [
-                                                      BoxShadow(
-                                                        color: Colors.black26,
-                                                        blurRadius: 4,
-                                                        offset: Offset(2, 2),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  child: Container(
-                                                    width: 420,
-                                                    height: 24,
-                                                    color: Colors.grey.shade200,
-                                                    margin: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
-                                                    alignment: Alignment.center,
-                                                    child: ScrollConfiguration(
-                                                      behavior: ScrollConfiguration.of(context).copyWith(
-                                                        dragDevices: {
-                                                          PointerDeviceKind.mouse,
-                                                          PointerDeviceKind.touch,
-                                                        },
-                                                      ),
-                                                      child: SingleChildScrollView(
-                                                        scrollDirection: Axis.horizontal,
-                                                        child: TextRenderer(
-                                                          style: TextRendererStyle.paragraph,
-                                                          child: Text(
-                                                            cardHash,
-                                                            maxLines: 1,
-                                                            style: Theme.of(context).textTheme.subtitle1!.copyWith(
-                                                                  color: Colors.black,
-                                                                ),
+                                      await showDialog(
+                                        context: context,
+                                        builder: (_) => Padding(
+                                          padding: const EdgeInsets.symmetric(horizontal: 30),
+                                          child: Center(
+                                            child: Material(
+                                              color: Colors.white,
+                                              borderRadius: BorderRadius.circular(8),
+                                              child: Column(
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: [
+                                                  const SizedBox(height: 32),
+                                                  TextRenderer(
+                                                    style: TextRendererStyle.header6,
+                                                    child: Text(
+                                                      'card_hash gerado com sucesso!',
+                                                      style: Theme.of(context).textTheme.headline6!.copyWith(
+                                                            color: Colors.black,
                                                           ),
-                                                        ),
-                                                      ),
                                                     ),
                                                   ),
-                                                ),
-                                                const SizedBox(height: 16),
-                                                Padding(
-                                                  padding: const EdgeInsets.symmetric(horizontal: 30),
-                                                  child: FloatingActionButton.extended(
-                                                    onPressed: () {
-                                                      Clipboard.setData(ClipboardData(text: cardHash));
-
-                                                      ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                                                      ScaffoldMessenger.of(context).showSnackBar(
-                                                        const SnackBar(
-                                                          content: TextRenderer(
+                                                  const SizedBox(height: 16),
+                                                  Container(
+                                                    margin: const EdgeInsets.symmetric(horizontal: 30),
+                                                    decoration: BoxDecoration(
+                                                      color: Colors.white,
+                                                      borderRadius: BorderRadius.circular(8),
+                                                      boxShadow: const [
+                                                        BoxShadow(
+                                                          color: Colors.black26,
+                                                          blurRadius: 4,
+                                                          offset: Offset(2, 2),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    child: Container(
+                                                      width: 420,
+                                                      height: 24,
+                                                      color: Colors.grey.shade200,
+                                                      margin: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+                                                      alignment: Alignment.center,
+                                                      child: ScrollConfiguration(
+                                                        behavior: ScrollConfiguration.of(context).copyWith(
+                                                          dragDevices: {
+                                                            PointerDeviceKind.mouse,
+                                                            PointerDeviceKind.touch,
+                                                          },
+                                                        ),
+                                                        child: SingleChildScrollView(
+                                                          scrollDirection: Axis.horizontal,
+                                                          child: TextRenderer(
                                                             style: TextRendererStyle.paragraph,
-                                                            child: Text('Copiado!'),
+                                                            child: Text(
+                                                              cardHash,
+                                                              maxLines: 1,
+                                                              style: Theme.of(context).textTheme.subtitle1!.copyWith(
+                                                                    color: Colors.black,
+                                                                  ),
+                                                            ),
                                                           ),
-                                                          backgroundColor: Colors.green,
-                                                          behavior: SnackBarBehavior.floating,
-                                                          width: 480,
                                                         ),
-                                                      );
-                                                    },
-                                                    label: const TextRenderer(
-                                                      style: TextRendererStyle.paragraph,
-                                                      child: Text('Copiar para área de transferência'),
+                                                      ),
                                                     ),
-                                                    icon: const Icon(Icons.copy_rounded),
                                                   ),
-                                                ),
-                                                const SizedBox(height: 32),
-                                              ],
+                                                  const SizedBox(height: 16),
+                                                  Padding(
+                                                    padding: const EdgeInsets.symmetric(horizontal: 30),
+                                                    child: FloatingActionButton.extended(
+                                                      onPressed: () {
+                                                        Clipboard.setData(ClipboardData(text: cardHash));
+
+                                                        ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                                                        ScaffoldMessenger.of(context).showSnackBar(
+                                                          const SnackBar(
+                                                            content: TextRenderer(
+                                                              style: TextRendererStyle.paragraph,
+                                                              child: Text('Copiado!'),
+                                                            ),
+                                                            backgroundColor: Colors.green,
+                                                            behavior: SnackBarBehavior.floating,
+                                                            width: 480,
+                                                          ),
+                                                        );
+                                                      },
+                                                      label: const TextRenderer(
+                                                        style: TextRendererStyle.paragraph,
+                                                        child: Text('Copiar para área de transferência'),
+                                                      ),
+                                                      icon: const Icon(Icons.copy_rounded),
+                                                    ),
+                                                  ),
+                                                  const SizedBox(height: 32),
+                                                ],
+                                              ),
                                             ),
                                           ),
                                         ),
-                                      ),
-                                    );
-                                  },
-                                ),
-                                const SizedBox(height: 32),
-                              ],
+                                      );
+                                    },
+                                  ),
+                                  const SizedBox(height: 32),
+                                ],
+                              ),
                             ),
                           ),
                         ),
@@ -325,6 +328,35 @@ class _MainPageState extends State<MainPage> {
                         ),
                       },
               ),
+              const Spacer(),
+              TextRenderer(
+                style: TextRendererStyle.paragraph,
+                child: Text.rich(
+                  TextSpan(
+                    text: 'Site feito utilizando Flutter por ',
+                    style: Theme.of(context).textTheme.subtitle1!.copyWith(
+                          color: Colors.grey,
+                        ),
+                    children: [
+                      TextSpan(
+                        text: 'tihrasguinho',
+                        style: Theme.of(context).textTheme.subtitle1!.copyWith(
+                              color: Colors.blue,
+                              fontWeight: FontWeight.w500,
+                            ),
+                        recognizer: TapGestureRecognizer()..onTap = () => launch('https://github.com/tihrasguinho'),
+                      ),
+                      TextSpan(
+                        text: '.',
+                        style: Theme.of(context).textTheme.subtitle1!.copyWith(
+                              color: Colors.grey,
+                            ),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(height: 10),
             ],
           ),
         ),

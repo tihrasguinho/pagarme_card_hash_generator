@@ -29,6 +29,15 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.0"
+  card_hash_generator:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: HEAD
+      resolved-ref: "21dec48083f383e4cdc88b4950a15b642ae86dc7"
+      url: "https://github.com/tihrasguinho/card_hash_generator.git"
+    source: git
+    version: "0.0.1"
   characters:
     dependency: transitive
     description:
@@ -170,15 +179,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.7.0"
-  pagarme_card_hash:
-    dependency: "direct main"
-    description:
-      path: "."
-      ref: HEAD
-      resolved-ref: "53a8de4d45b6580aeaa7ddb5a3552ddcc25e1295"
-      url: "https://github.com/tihrasguinho/pagarme_card_hash.git"
-    source: git
-    version: "0.0.1"
   path:
     dependency: transitive
     description:
