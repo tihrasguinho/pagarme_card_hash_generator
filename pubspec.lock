@@ -32,12 +32,10 @@ packages:
   card_hash_generator:
     dependency: "direct main"
     description:
-      path: "."
-      ref: HEAD
-      resolved-ref: "21dec48083f383e4cdc88b4950a15b642ae86dc7"
-      url: "https://github.com/tihrasguinho/card_hash_generator.git"
-    source: git
-    version: "0.0.1"
+      name: card_hash_generator
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.3+hotfix.2"
   characters:
     dependency: transitive
     description:

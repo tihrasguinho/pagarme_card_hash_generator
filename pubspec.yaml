@@ -13,9 +13,7 @@ dependencies:
     sdk: flutter
 
   cupertino_icons: ^1.0.2
-  card_hash_generator:
-    git:
-      url: https://github.com/tihrasguinho/card_hash_generator.git
+  card_hash_generator: ^0.0.3+hotfix.2
   mask_text_input_formatter: ^2.1.0
   url_launcher: ^6.0.20
   url_strategy: ^0.2.0
