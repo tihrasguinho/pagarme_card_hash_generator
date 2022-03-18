@@ -127,7 +127,7 @@ class _MainPageState extends State<MainPage> {
                   formatters: [
                     MaskTextInputFormatter(
                       mask: '#### #### #### ####',
-                      filter: {"#": RegExp(r'[0-9]')},
+                      filter: {'#': RegExp(r'[0-9]')},
                       type: MaskAutoCompletionType.lazy,
                     ),
                   ],
@@ -142,7 +142,7 @@ class _MainPageState extends State<MainPage> {
                   formatters: [
                     MaskTextInputFormatter(
                       mask: '##/##',
-                      filter: {"#": RegExp(r'[0-9]')},
+                      filter: {'#': RegExp(r'[0-9]')},
                       type: MaskAutoCompletionType.lazy,
                     ),
                   ],
@@ -153,7 +153,7 @@ class _MainPageState extends State<MainPage> {
                   formatters: [
                     MaskTextInputFormatter(
                       mask: '###',
-                      filter: {"#": RegExp(r'[0-9]')},
+                      filter: {'#': RegExp(r'[0-9]')},
                       type: MaskAutoCompletionType.lazy,
                     ),
                   ],
