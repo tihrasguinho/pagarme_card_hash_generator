@@ -1,3 +1,5 @@
 extension StringExtension on String {
-  String get withOutSpecialChars => replaceAll(RegExp(r'[^\w\s]+'), '');
+  String get cardNumbersOnly => replaceAll(' ', '');
+
+  String get cardExpirationNumbersOnly => replaceAll('/', '');
 }

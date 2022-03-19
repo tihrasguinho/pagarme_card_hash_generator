@@ -217,12 +217,18 @@ class _MainPageState extends State<MainPage> {
 
                                         final pagarmeCardHash = CardHashGenerator(apiKey: apiKey.text);
 
-                                        final cardHash = await pagarmeCardHash.generate(
-                                          cardNumber: cardNumber.text.withOutSpecialChars,
+                                        final cardHash = await pagarmeCardHash
+                                            .generate(
+                                          cardNumber: cardNumber.text.cardNumbersOnly,
                                           cardHolderName: cardHolder.text,
-                                          cardExpirationDate: cardExp.text.withOutSpecialChars,
+                                          cardExpirationDate: cardExp.text.cardExpirationNumbersOnly,
                                           cardCvv: cardCvv.text,
-                                        );
+                                        )
+                                            .catchError((e) {
+                                          if (e is CardHashException) {
+                                            print(e.message);
+                                          }
+                                        });
 
                                         Navigator.of(context).pop();
 

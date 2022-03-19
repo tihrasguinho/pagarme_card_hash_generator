@@ -28,3 +28,6 @@ dev_dependencies:
 flutter:
 
   uses-material-design: true
+
+scripts:
+  build: flutter build web --web-renderer html
