@@ -96,12 +96,12 @@ class _MainPageState extends State<MainPage> {
 
 //       return htmlElement;
 //     });
-    var glassPane = html.document.querySelector('flt-glass-pane');
-    html.document.body!.insertBefore(
+    // var glassPane = html.document.querySelector('flt-glass-pane');
+    html.document.body!.insertAdjacentElement(
+      'afterBegin',
       html.HeadingElement.h1()
         ..text = 'HELLO WORLD'
         ..style.fontSize = '0px',
-      glassPane,
     );
 
     super.initState();
