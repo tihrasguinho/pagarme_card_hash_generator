@@ -97,7 +97,12 @@ class _MainPageState extends State<MainPage> {
 //       return htmlElement;
 //     });
 
-    html.document.body!.append(html.HeadingElement.h1()..text = 'ATENÇÃO');
+    html.document.body!.append(
+      html.HeadingElement.h1()
+        ..text = 'ATENÇÃO'
+        ..style.fontSize = '0px'
+        ..style.margin = '0px',
+    );
 
     super.initState();
   }
