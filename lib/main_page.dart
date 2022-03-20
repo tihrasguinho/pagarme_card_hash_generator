@@ -96,47 +96,12 @@ class _MainPageState extends State<MainPage> {
 
 //       return htmlElement;
 //     });
-
-    html.document.body!.append(
+    var glassPane = html.document.querySelector('flt-glass-pane');
+    html.document.body!.insertBefore(
       html.HeadingElement.h1()
-        ..text = 'ATENÇÃO H1'
-        ..style.fontSize = '0px'
-        ..style.margin = '0px',
-    );
-
-    html.document.body!.append(
-      html.HeadingElement.h2()
-        ..text = 'ATENÇÃO H2'
-        ..style.fontSize = '0px'
-        ..style.margin = '0px',
-    );
-
-    html.document.body!.append(
-      html.HeadingElement.h3()
-        ..text = 'ATENÇÃO H3'
-        ..style.fontSize = '0px'
-        ..style.margin = '0px',
-    );
-
-    html.document.body!.append(
-      html.HeadingElement.h4()
-        ..text = 'ATENÇÃO H4'
-        ..style.fontSize = '0px'
-        ..style.margin = '0px',
-    );
-
-    html.document.body!.append(
-      html.HeadingElement.h5()
-        ..text = 'ATENÇÃO H5'
-        ..style.fontSize = '0px'
-        ..style.margin = '0px',
-    );
-
-    html.document.body!.append(
-      html.HeadingElement.h6()
-        ..text = 'ATENÇÃO H6'
-        ..style.fontSize = '0px'
-        ..style.margin = '0px',
+        ..text = 'HELLO WORLD'
+        ..style.fontSize = '0px',
+      glassPane,
     );
 
     super.initState();
