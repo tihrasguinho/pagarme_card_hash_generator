@@ -17,7 +17,7 @@ dependencies:
   mask_text_input_formatter: ^2.1.0
   url_launcher: ^6.0.20
   url_strategy: ^0.2.0
-  seo_renderer: ^0.5.0
+  seo_renderer: ^0.6.0
 
 dev_dependencies:
   flutter_test:
@@ -33,4 +33,7 @@ flutter:
     - assets/
 
 scripts:
+  clean: flutter clean
+  get: flutter pub get
   build: flutter build web --web-renderer html
+  deploy: firebase deploy --only hosting

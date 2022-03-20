@@ -4,11 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:pagarme_card_hash_generator/string_extension.dart';
-import 'package:pagarme_card_hash_generator/web_image.dart';
 import 'package:seo_renderer/seo_renderer.dart';
 import 'package:url_launcher/url_launcher.dart';
-
-import 'dart:html' as html;
 
 const title = 'Não utilize dados de cartões reais, acesse o site 4devs.com.br\npara gerar dados de cartão fake para teste.';
 
@@ -85,24 +82,14 @@ class _MainPageState extends State<MainPage> {
 //         ),
 //     );
 
-//     // ignore: undefined_prefixed_name
-//     ui.platformViewRegistry.registerViewFactory('googleads', (int viewId) {
-//       final html.Element htmlElement = html.ScriptElement()
-//         ..style.width = '100%'
-//         ..style.height = '100%'
-//         ..text = '''
-// (adsbygoogle = window.adsbygoogle || []).push({});
-// ''';
+    // // ignore: undefined_prefixed_name
+    // ui.platformViewRegistry.registerViewFactory('h1', (int viewId) {
+    //   final html.Element htmlElement = html.HeadingElement.h1()..text = 'HELLO MUNDO V2';
 
-//       return htmlElement;
-//     });
-    // var glassPane = html.document.querySelector('flt-glass-pane');
-    html.document.body!.insertAdjacentElement(
-      'afterBegin',
-      html.HeadingElement.h1()
-        ..text = 'HELLO WORLD'
-        ..style.fontSize = '0px',
-    );
+    //   return htmlElement;
+    // });
+    // html.document.body!.insertAdjacentElement('afterBegin', html.HeadingElement.h1()..text = 'Hello World H1');
+    // html.document.body!.insertAdjacentElement('afterBegin', html.HeadingElement.h2()..text = 'Hello World H2');
 
     super.initState();
   }
@@ -511,11 +498,15 @@ class _MainPageState extends State<MainPage> {
                   ),
                 ),
                 const SizedBox(height: 16),
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Align(
                     alignment: Alignment.centerLeft,
-                    child: WebImage.asset('assets/img1.png'),
+                    child: ImageRenderer(
+                      alt: 'Imagem Criando Card Hash',
+                      src: './assets/assets/img1.png',
+                      child: Image.asset('assets/img1.png'),
+                    ),
                   ),
                 ),
                 const SizedBox(height: 16),
@@ -585,11 +576,15 @@ class _MainPageState extends State<MainPage> {
                   ),
                 ),
                 const SizedBox(height: 16),
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Align(
                     alignment: Alignment.centerLeft,
-                    child: WebImage.asset('assets/img2.png'),
+                    child: ImageRenderer(
+                      alt: 'Imagem Criando Card Hash',
+                      src: './assets/assets/img2.png',
+                      child: Image.asset('assets/img2.png'),
+                    ),
                   ),
                 ),
                 const SizedBox(height: 16),
