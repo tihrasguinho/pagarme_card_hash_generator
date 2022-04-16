@@ -7,7 +7,8 @@ import 'package:pagarme_card_hash_generator/string_extension.dart';
 import 'package:seo_renderer/seo_renderer.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-const title = 'Não utilize dados de cartões reais, acesse o site 4devs.com.br\npara gerar dados de cartão fake para teste.';
+const title =
+    'Não utilize dados de cartões reais, acesse o site 4devs.com.br\npara gerar dados de cartão fake para teste.';
 
 const subtitle =
     'Este site é apenas um demonstrativo do package card_hash_generator para Flutter que eu criei para utilizar na empresa na qual eu trabalho, porém está publicado no github para quem quiser ver!';
@@ -35,64 +36,8 @@ class _MainPageState extends State<MainPage> {
 
   final apiKey = TextEditingController();
 
-  bool get isValidated => cardNumber.text.isNotEmpty && cardHolder.text.isNotEmpty && cardExp.text.isNotEmpty && cardCvv.text.isNotEmpty;
-
-  @override
-  void initState() {
-//     html.document.head!.append(html.ScriptElement()
-//       ..async = true
-//       ..src = 'https://securepubads.g.doubleclick.net/tag/js/gpt.js');
-
-//     html.document.head!.append(html.ScriptElement()
-//       ..text = '''
-// window.googletag = window.googletag || {cmd: []};
-//   googletag.cmd.push(function() {
-//     googletag
-//         .defineSlot(
-//             '/6355419/Travel/Europe/France/Paris', [300, 250], 'banner-ad')
-//         .addService(googletag.pubads());
-//     googletag.enableServices();
-//   });
-// ''');
-
-//     html.document.head!.append(html.ScriptElement()
-//       ..async = true
-//       ..crossOrigin = 'anonymous'
-//       ..src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9927286313504915');
-
-//     html.document.body!.appendHtml(
-//       '''
-// <ins class="adsbygoogle"
-//      style="display:block"
-//      data-ad-client="ca-pub-9927286313504915"
-//      data-ad-slot="9576838047"
-//      data-ad-format="auto"
-//      data-full-width-responsive="true"></ins>
-// ''',
-//       validator: html.NodeValidatorBuilder.common()
-//         ..allowElement(
-//           'ins',
-//           attributes: [
-//             'data-full-width-responsive',
-//             'data-ad-format',
-//             'data-ad-slot',
-//             'data-ad-client',
-//             'style',
-//           ],
-//         ),
-//     );
-
-    // // ignore: undefined_prefixed_name
-    // ui.platformViewRegistry.registerViewFactory('h1', (int viewId) {
-    //   final html.Element htmlElement = html.HeadingElement.h1()..text = 'HELLO MUNDO V2';
-
-    //   return htmlElement;
-    // });
-    // html.document.body!.insertAdjacentElement('afterBegin', html.HeadingElement.h1()..text = 'Hello World H1');
-    // html.document.body!.insertAdjacentElement('afterBegin', html.HeadingElement.h2()..text = 'Hello World H2');
-
-    super.initState();
-  }
+  bool get isValidated =>
+      cardNumber.text.isNotEmpty && cardHolder.text.isNotEmpty && cardExp.text.isNotEmpty && cardCvv.text.isNotEmpty;
 
   @override
   void dispose() {
@@ -160,14 +105,16 @@ class _MainPageState extends State<MainPage> {
                           children: [
                             TextSpan(
                               text: 'card_hash_generator',
-                              recognizer: TapGestureRecognizer()..onTap = () => launch('https://pub.dev/packages/card_hash_generator'),
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = () => launch('https://pub.dev/packages/card_hash_generator'),
                               style: Theme.of(context).textTheme.subtitle1!.copyWith(
                                     color: Colors.blue,
                                     fontWeight: FontWeight.bold,
                                   ),
                             ),
                             TextSpan(
-                              text: ' para Flutter que eu criei para utilizar na empresa na qual eu trabalho, porém está publicado no github para quem quiser ver!',
+                              text:
+                                  ' para Flutter que eu criei para utilizar na empresa na qual eu trabalho, porém está publicado no github para quem quiser ver!',
                               style: Theme.of(context).textTheme.subtitle1!.copyWith(
                                     color: Colors.grey,
                                   ),
@@ -446,7 +393,8 @@ class _MainPageState extends State<MainPage> {
                           children: [
                             TextSpan(
                               text: 'card_hash_generator',
-                              recognizer: TapGestureRecognizer()..onTap = () => launch('https://pub.dev/packages/card_hash_generator'),
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = () => launch('https://pub.dev/packages/card_hash_generator'),
                               style: Theme.of(context).textTheme.subtitle1!.copyWith(
                                     color: Colors.blue,
                                   ),
@@ -520,7 +468,8 @@ class _MainPageState extends State<MainPage> {
                           'Após realizar a inicialização da classe com sua chave de api o processo é bastante simples, basta chamar o método .generate() passando os dados do cartão em que se deseja criar o card_hash! É necessário tratar os dados obtidos do usuário antes de enviar para criar o card_hash, os números do cartão não podem conter nada além dos números, deve ser uma String desta forma: 0000000000000000. O mesmo vale para o nome do titular do cartão que deve conter apenas letras (afinal nome próprio não tem números não é mesmo?), a data de validade do cartão dois digitos para o mês e dois digitos para o ano assim: 0000 e o cvv que deve conter também apenas números! Caso algum desses dados não seja passados corretamente uma exceção será lançada!',
                       child: SelectableText.rich(
                         TextSpan(
-                          text: 'Após realizar a inicialização da classe com sua chave de api o processo é bastante simples, basta chamar o método ',
+                          text:
+                              'Após realizar a inicialização da classe com sua chave de api o processo é bastante simples, basta chamar o método ',
                           style: Theme.of(context).textTheme.subtitle1!.copyWith(
                                 color: Colors.grey,
                               ),
@@ -564,7 +513,8 @@ class _MainPageState extends State<MainPage> {
                                   ),
                             ),
                             TextSpan(
-                              text: ' e o cvv que deve conter também apenas números! Caso algum desses dados não seja passados corretamente uma exceção será lançada!',
+                              text:
+                                  ' e o cvv que deve conter também apenas números! Caso algum desses dados não seja passados corretamente uma exceção será lançada!',
                               style: Theme.of(context).textTheme.subtitle1!.copyWith(
                                     color: Colors.grey,
                                   ),
@@ -594,10 +544,12 @@ class _MainPageState extends State<MainPage> {
                     alignment: Alignment.centerLeft,
                     child: TextRenderer(
                       style: TextRendererStyle.paragraph,
-                      text: 'Pronto seu cartão encriptado foi gerado com sucesso e já está pronto para ser utilizado na pagar.me em uma transação ou para gerar um card_id! Fácio não é mesmo?',
+                      text:
+                          'Pronto seu cartão encriptado foi gerado com sucesso e já está pronto para ser utilizado na pagar.me em uma transação ou para gerar um card_id! Fácio não é mesmo?',
                       child: SelectableText.rich(
                         TextSpan(
-                          text: 'Pronto seu cartão encriptado foi gerado com sucesso e já está pronto para ser utilizado na ',
+                          text:
+                              'Pronto seu cartão encriptado foi gerado com sucesso e já está pronto para ser utilizado na ',
                           style: Theme.of(context).textTheme.subtitle1!.copyWith(
                                 color: Colors.grey,
                               ),
@@ -643,7 +595,8 @@ class _MainPageState extends State<MainPage> {
                     alignment: Alignment.centerLeft,
                     child: TextRenderer(
                       style: TextRendererStyle.paragraph,
-                      text: 'Para criar um cartão de crédito fake para teste, basta acessar 4devs.com.br e gerar um número para utilização na api da pagar.me.',
+                      text:
+                          'Para criar um cartão de crédito fake para teste, basta acessar 4devs.com.br e gerar um número para utilização na api da pagar.me.',
                       child: SelectableText.rich(
                         TextSpan(
                           text: 'Para criar um cartão de crédito fake para teste, basta acessar ',
@@ -657,7 +610,8 @@ class _MainPageState extends State<MainPage> {
                                     color: Colors.blue,
                                     fontWeight: FontWeight.w500,
                                   ),
-                              recognizer: TapGestureRecognizer()..onTap = () => launch('https://www.4devs.com.br/gerador_de_numero_cartao_credito'),
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = () => launch('https://www.4devs.com.br/gerador_de_numero_cartao_credito'),
                             ),
                             TextSpan(
                               text: ' e gerar um número para utilização na api da pagar.me.',
@@ -736,7 +690,8 @@ class _MainPageState extends State<MainPage> {
                                 color: Colors.blue,
                                 fontWeight: FontWeight.w500,
                               ),
-                          recognizer: TapGestureRecognizer()..onTap = () => launch('https://twitter.com/tihrasguinhodev'),
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () => launch('https://twitter.com/tihrasguinhodev'),
                         ),
                         TextSpan(
                           text: '.',
