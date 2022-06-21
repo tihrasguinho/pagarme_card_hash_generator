@@ -15,7 +15,7 @@ jobs:
         with:
           flutter-version: '2.10.3'
       - run: flutter pub get
-      - run: flutter build web --web-renderer html
+      - run: flutter build web --release
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
